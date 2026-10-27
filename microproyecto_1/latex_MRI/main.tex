@@ -1,0 +1,137 @@
+% !TEX program = pdflatex
+\documentclass[letterpaper, 10 pt, conference]{ieeeconf}
+\usepackage{graphicx}
+
+\overrideIEEEmargins
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphics}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage{multirow}
+
+\title{\LARGE \bf
+Clasificación de Estudios MRI Cerebrales mediante Redes Neuronales Convolucionales para la Detección de Tipos de Tumor
+}
+
+\author{Otto Wilmer Castillo Santacruz, Edgar Andrés Pérez Mora y Silvio Yopasa Romero\\
+\textit{Maestría en Inteligencia Artificial (MAIA), Universidad de los Andes, Bogotá, Colombia}\\
+{\tt\small \{o.castillos, ea.perezm1, s.yopasa\}@uniandes.edu.co}
+}
+
+\begin{document}
+
+\maketitle
+\thispagestyle{empty}
+\pagestyle{empty}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introducción}
+
+La resonancia magnética cerebral (\textit{Magnetic Resonance Imaging}, MRI) constituye la modalidad de imagen diagnóstica de referencia para la detección no invasiva, caracterización morfológica y planificación terapéutica de neoplasias intracraneales \cite{c1}. En la práctica clínica, la interpretación visual de múltiples cortes anatómicos demanda alta especialización radiológica y está sujeta a variabilidad interobservador. En años recientes, las redes neuronales convolucionales (CNN) han demostrado capacidad para extraer representaciones jerárquicas directamente a partir de los niveles de intensidad de los cortes bidimensionales, facilitando el diagnóstico asistido por computador \cite{c2}.
+
+El problema abordado consiste en la clasificación supervisada multiclase de cortes individuales 2D de MRI cerebral en $C = 4$ categorías diagnósticas: \textit{glioma}, \textit{meningioma}, tejido sin lesión tumoral (\textit{healthy}) y adenoma hipofisario (\textit{pituitary}). A diferencia del procesamiento volumétrico 3D completo, la formulación sobre cortes 2D reduce sustancialmente el costo computacional, pero introduce desafíos técnicos derivados de la heterogeneidad en las resoluciones de adquisición, la coexistencia de planos anatómicos (axial, coronal y sagital) y la presencia de artefactos periféricos que pueden inducir aprendizaje por atajos (\textit{shortcut learning}) \cite{c3}.
+
+En este trabajo se desarrolla un flujo reproducible de extremo a extremo en PyTorch que integra: (i) depuración de duplicados exactos mediante funciones resumen criptográficas (MD5) para eliminar la fuga de información entre particiones; (ii) un preprocesamiento anatómico basado en recorte automático de bordes (\texttt{CropToContent}) y estandarización espacial sin deformación (\texttt{PadToSquare}); y (iii) la implementación y evaluación de \textbf{[POR COMPLETAR: arquitectura CNN propia / transferencia de aprendizaje]}, alcanzando una exactitud global de \textbf{[XX.X\,\%]} y un \textit{Macro F1-Score} de \textbf{[XX.X\,\%]} en el conjunto de prueba independiente.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Metodología}
+
+\subsection{Visión general del enfoque}
+El método propuesto estructura el proceso de clasificación en cuatro etapas secuenciales: auditoría y deduplicación del conjunto de datos, estandarización geométrica con eliminación de artefactos de borde, entrenamiento supervisado con función de pérdida ponderada por clase y evaluación cuantitativa y cualitativa sobre una partición de prueba aislada.
+
+% Descomentar cuando se exporte el diagrama o figura del pipeline desde el notebook:
+% \begin{figure}[h]
+%     \centering
+%     \includegraphics[width=0.95\linewidth]{pipeline_mri.png}
+%     \caption{Flujo de preprocesamiento espacial (\texttt{CropToContent} y \texttt{PadToSquare}) y aumento de datos aplicado sobre cortes de MRI cerebral.}
+%     \label{fig:pipeline}
+% \end{figure}
+
+\subsection{Datos y preprocesamiento}
+El conjunto de datos público inicial contiene $7\,023$ imágenes 2D de MRI cerebral en escala de grises almacenadas con tres canales RGB. Mediante el cálculo del hash MD5 de cada archivo se identificaron $300$ grupos de imágenes idénticas correspondientes a $426$ copias redundantes (concentradas principalmente en \textit{healthy} con $294$ copias y \textit{meningioma} con $114$), sin contradicciones de etiqueta entre duplicados. Tras conservar una única instancia por grupo, el conjunto depurado consta de $N = 6\,597$ imágenes únicas con distribución balanceada (razón de desbalance de $1.14$): \textit{pituitary} ($1\,740$; $26.38\,\%$), \textit{healthy} ($1\,706$; $25.86\,\%$), \textit{glioma} ($1\,620$; $24.56\,\%$) y \textit{meningioma} ($1\,531$; $23.21\,\%$).
+
+El análisis exploratorio reveló $387$ resoluciones distintas (entre $150\text{ px}$ y $1\,920\text{ px}$) y dos sesgos de origen correlacionados con la categoría \textit{healthy}: (i) una resolución mediana inferior ($228\times 242\text{ px}$ frente a $512\times 512\text{ px}$ en más del $90\,\%$ de las clases tumorales) y (ii) la presencia de marcos claros periféricos en el $14.30\,\%$ de sus muestras ($2.81\,\%$ en los cuatro bordes). Para mitigar el aprendizaje de características espurias, se implementaron dos transformaciones deterministas previas al redimensionamiento a $224\times 224\text{ px}$:
+\begin{enumerate}
+    \item \texttt{CropToContent}: elimina bandas periféricas brillantes y recorta la imagen al cuadro delimitador del tejido anatómico (umbral de intensidad $> 20$ en al menos el $2\,\%$ de la fila o columna).
+    \item \texttt{PadToSquare}: aplica relleno simétrico con ceros en la dimensión menor hasta igualar el lado mayor, preservando la proporción anatómica antes de interpolar a $224\times 224\text{ px}$ y normalizar con estadísticos de ImageNet ($\mu = [0.485, 0.456, 0.406]$, $\sigma = [0.229, 0.224, 0.225]$).
+\end{enumerate}
+
+El conjunto depurado se dividió de forma estratificada (semilla $42$) en entrenamiento (\texttt{Train}, $70\,\%$, $4\,617$ imágenes), validación (\texttt{Val}, $15\,\%$, $990$ imágenes) y prueba (\texttt{Test}, $15\,\%$, $990$ imágenes), verificando disyunción estricta de hashes MD5 entre subconjuntos. Exclusivamente sobre \texttt{Train} se aplicó aumento de datos estocástico: volteo horizontal ($p=0.5$), rotación afín ($\pm 10^\circ$), traslación ($\pm 5\,\%$), variación de brillo y contraste ($\pm 15\,\%$) y desenfoque gaussiano ($k=3$, $p=0.3$) para homogeneizar diferencias de nitidez.
+
+\subsection{Arquitectura del modelo}
+\textbf{[POR COMPLETAR SECCIÓN 2.1 DEL NOTEBOOK:]} Se implementó una arquitectura convolucional compuesta por \textbf{[número de bloques]} bloques de extracción de características, cada uno conformado por capas \texttt{Conv2d}, normalización por lotes (\texttt{BatchNorm2d}), activación no lineal \texttt{ReLU} y reducción espacial \texttt{MaxPool2d}. El cabezal clasificador emplea \texttt{AdaptiveAvgPool2d}, regularización mediante \texttt{Dropout} ($p = \textbf{[0.X]}$) y una capa lineal de proyección hacia las $C = 4$ salidas. \textbf{[Si se incluye modelo preentrenado, especificar ResNet/EfficientNet y estrategia de congelamiento].}
+
+\subsection{Estrategia de entrenamiento y evaluación}
+\textbf{[POR COMPLETAR SECCIÓN 2.2 DEL NOTEBOOK:]} El entrenamiento se ejecutó durante \textbf{[N]} épocas con tamaño de lote $B = 32$, optimizador \textbf{[Adam / AdamW]} con tasa de aprendizaje inicial $\eta = \textbf{[1e-X]}$, decaimiento de pesos $\lambda = \textbf{[1e-X]}$ y planificador \textbf{[ReduceLROnPlateau / CosineAnnealingLR]}. Se utilizó la función de pérdida de entropía cruzada ponderada inversamente por la frecuencia de clase en \texttt{Train} ($w_c = N_{\text{train}} / (C \cdot n_c)$): $w_{\text{glioma}} = 1.0179$, $w_{\text{meningioma}} = 1.0777$, $w_{\text{healthy}} = 0.9667$ y $w_{\text{pituitary}} = 0.9477$. La selección del mejor modelo se realizó según el \textit{Macro F1-Score} en validación.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Resultados}
+
+\subsection{Descripción experimental y resultados cuantitativos}
+\textbf{[POR COMPLETAR SECCIONES 3.1 Y 3.2 DEL NOTEBOOK:]} En la Tabla~\ref{tab:metricas} se reporta el desempeño en el conjunto de prueba independiente ($n = 990$), desagregando precisión (\textit{Precision}), sensibilidad (\textit{Recall}) y \textit{F1-Score} por categoría, junto con los promedios macro y la exactitud global.
+
+\begin{table}[h]
+\centering
+\caption{Desempeño cuantitativo por categoría diagnóstica en el conjunto de prueba (\texttt{Test}, $n=990$).}
+\label{tab:metricas}
+\resizebox{8.5cm}{!}{
+\begin{tabular}{|l|c|c|c|c|} \hline
+\textbf{Categoría} & \textbf{Precisión (\%)} & \textbf{Sensibilidad (\%)} & \textbf{F1-Score (\%)} & \textbf{Soporte} \\\hline
+\textit{Glioma} & [XX.X] & [XX.X] & [XX.X] & 243 \\\hline
+\textit{Meningioma} & [XX.X] & [XX.X] & [XX.X] & 230 \\\hline
+\textit{Healthy} & [XX.X] & [XX.X] & [XX.X] & 256 \\\hline
+\textit{Pituitary} & [XX.X] & [XX.X] & [XX.X] & 261 \\\hline\hline
+\textbf{Promedio Macro} & \textbf{[XX.X]} & \textbf{[XX.X]} & \textbf{[XX.X]} & 990 \\\hline
+\textbf{Exactitud Global} & \multicolumn{3}{c|}{\textbf{[XX.X]}} & 990 \\\hline
+\end{tabular}}
+\end{table}
+
+La Tabla~\ref{tab:confusion} presenta la matriz de confusión obtenida sobre el conjunto de prueba, permitiendo cuantificar los falsos positivos y falsos negativos entre patologías tumorales.
+
+\begin{table}[h]
+\centering
+\caption{Matriz de confusión sobre el conjunto de prueba (\texttt{Test}, $n = 990$). Filas: etiqueta real; columnas: predicción.}
+\label{tab:confusion}
+\resizebox{8.5cm}{!}{
+\begin{tabular}{|l|c|c|c|c|} \hline
+\textbf{Real $\backslash$ Predicción} & \textbf{Glioma} & \textbf{Meningioma} & \textbf{Healthy} & \textbf{Pituitary} \\\hline
+\textbf{Glioma} ($243$) & \textbf{[XXX]} & [XX] & [XX] & [XX] \\\hline
+\textbf{Meningioma} ($230$) & [XX] & \textbf{[XXX]} & [XX] & [XX] \\\hline
+\textbf{Healthy} ($256$) & [XX] & [XX] & \textbf{[XXX]} & [XX] \\\hline
+\textbf{Pituitary} ($261$) & [XX] & [XX] & [XX] & \textbf{[XXX]} \\\hline
+\end{tabular}}
+\end{table}
+
+% Descomentar cuando se exporten las curvas de aprendizaje desde la Sección 3.1 del notebook:
+% \begin{figure}[h]
+%     \centering
+%     \includegraphics[width=0.95\linewidth]{curvas_aprendizaje.png}
+%     \caption{Evolución de la función de pérdida y exactitud en entrenamiento y validación.}
+%     \label{fig:curvas}
+% \end{figure}
+
+\subsection{Análisis cualitativo y estudios de ablación}
+\textbf{[POR COMPLETAR SECCIÓN 3.3 DEL NOTEBOOK:]} La inspección visual de las predicciones sobre \texttt{Test} evidencia que los principales errores de clasificación ocurren entre \textbf{[indicar par de clases con mayor confusión, p. ej., meningioma y glioma]}, atribuibles a \textbf{[similitud de intensidad en cortes axiales / localización anatómica]}. Asimismo, la comparación frente al entrenamiento sin recorte periférico ni desenfoque confirma el impacto del preprocesamiento propuesto.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Discusión}
+
+\textbf{[POR COMPLETAR SECCIÓN 4 DEL NOTEBOOK:]} Los resultados experimentales demuestran que la combinación de limpieza por hash MD5 y estandarización espacial mediante \texttt{CropToContent} y \texttt{PadToSquare} previene la sobreestimación de métricas causada por copias duplicadas entre particiones y reduce la dependencia de artefactos de borde en la clase \textit{healthy}. El desempeño alcanzado en \textbf{[\textit{Macro F1-Score}]} refleja una capacidad de discriminación equilibrada entre las cuatro categorías diagnósticas.
+
+No obstante, el estudio presenta limitaciones metodológicas inherentes al conjunto de datos público: (i) la ausencia de identificadores únicos de paciente impide garantizar una partición por sujeto, por lo que cortes adyacentes de un mismo estudio volumétrico podrían coexistir entre particiones pese a la eliminación de duplicados exactos; y (ii) la distribución desigual de planos anatómicos y secuencias (T1, T2, FLAIR) entre categorías puede actuar como variable de confusión residual. Como trabajo futuro se plantea incorporar validación externa en cohortes clínicas con metadatos DICOM por paciente y mecanismos de explicabilidad visual (\textit{Grad-CAM}) para verificar que la atención espacial de la red se concentre exclusivamente en la región lesional.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{thebibliography}{99}
+
+\bibitem{c1} D. N. Louis \textit{et al.}, ``The 2021 WHO classification of tumors of the central nervous system: a summary,'' \textit{Neuro-Oncology}, vol. 23, no. 8, pp. 1231--1251, 2021.
+
+\bibitem{c2} S. Deepak and P. M. Ameer, ``Brain tumor classification using deep CNN features via transfer learning,'' \textit{Computers in Biology and Medicine}, vol. 111, p. 103345, 2019.
+
+\bibitem{c3} R. Geirhos \textit{et al.}, ``Shortcut learning in deep neural networks,'' \textit{Nature Machine Intelligence}, vol. 2, no. 11, pp. 665--673, 2020.
+
+\end{thebibliography}
+
+\end{document}
