@@ -5,7 +5,7 @@ set -euo pipefail
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$REPO_ROOT"
 
-PYTHON_VERSION="3.11"
+PYTHON_VERSION="3.15"
 
 # Determine N automatically (or use first argument if numeric)
 if [[ $# -ge 1 && "$1" =~ ^[0-9]+$ ]]; then
@@ -46,16 +46,6 @@ cd "$PROJECT_DIR"
 # 1. Initialize uv project if pyproject.toml does not exist
 if [[ ! -f "pyproject.toml" ]]; then
     uv init --python "$PYTHON_VERSION" --name "$KERNEL_NAME"
-    # Configure Python <3.13 and darwin x86_64 environment resolution (needed for PyTorch on Intel macOS)
-    python3 - <<'PYEOF'
-from pathlib import Path
-p = Path("pyproject.toml")
-text = p.read_text()
-text = text.replace('requires-python = ">=3.11"', 'requires-python = ">=3.11,<3.13"')
-if "[tool.uv]" not in text:
-    text += '\n[tool.uv]\nrequired-environments = [\n    "sys_platform == \'darwin\' and platform_machine == \'x86_64\'",\n]\n'
-p.write_text(text)
-PYEOF
 fi
 
 # 2. Install base Jupyter kernel support + any extra packages passed as arguments
