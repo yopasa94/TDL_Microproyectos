@@ -1,0 +1,5 @@
+# Vectores GloVe (~822 MB comprimidos): la sección 1.4.4 del notebook los descarga si no existen
+microproyecto_2/data/glove/
+
+# Archivos de sistema de macOS
+.DS_Store
