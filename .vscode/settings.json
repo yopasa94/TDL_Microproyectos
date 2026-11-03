@@ -1,0 +1,9 @@
+{
+    "python.defaultInterpreterPath": "${workspaceFolder}/microproyecto_1/.venv/bin/python",
+    "python.venvFolders": [
+        "microproyecto_1",
+        "microproyecto_2",
+        "microproyecto_3",
+        "microproyecto_4"
+    ]
+}

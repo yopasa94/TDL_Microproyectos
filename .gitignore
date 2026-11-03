@@ -1,5 +1,23 @@
-# Vectores GloVe (~822 MB comprimidos): la sección 1.4.4 del notebook los descarga si no existen
-microproyecto_2/data/glove/
+# Virtual environments
+.venv/
+**/.venv/
+venv/
+**/venv/
+.env
+**/.env
 
-# Archivos de sistema de macOS
+# Python byte-compiled / cache
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.ruff_cache/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+**/.ipynb_checkpoints/
+
+# macOS / Editor
 .DS_Store
+**/.DS_Store
+
