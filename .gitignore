@@ -1,0 +1,23 @@
+# Virtual environments
+.venv/
+**/.venv/
+venv/
+**/venv/
+.env
+**/.env
+
+# Python byte-compiled / cache
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.ruff_cache/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+**/.ipynb_checkpoints/
+
+# macOS / Editor
+.DS_Store
+**/.DS_Store
+
