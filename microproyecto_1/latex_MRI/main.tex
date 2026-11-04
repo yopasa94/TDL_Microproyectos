@@ -3,8 +3,8 @@
 % !TEX encoding = UTF-8 Unicode
 \documentclass[letterpaper, 10 pt, conference]{ieeeconf}
 \usepackage{graphicx}
-
 \overrideIEEEmargins
+\IEEEoverridecommandlockouts
 
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
@@ -14,9 +14,16 @@
 \usepackage{booktabs}
 \usepackage{multirow}
 
-\setlength{\textfloatsep}{3pt plus 1pt minus 1pt}
+\setlength{\textfloatsep}{2pt plus 1pt minus 1pt}
 \setlength{\floatsep}{2pt plus 1pt minus 1pt}
 \setlength{\intextsep}{2pt plus 1pt minus 1pt}
+\setlength{\abovecaptionskip}{2pt}
+\setlength{\belowcaptionskip}{0pt}
+\renewcommand{\baselinestretch}{0.96}
+\IEEEaftertitletext{\vspace{-1.2\baselineskip}}
+\makeatletter
+\def\section{\@startsection{section}{1}{\z@}{0.9ex plus 0.4ex minus 0.3ex}{0.35ex plus 0.2ex minus 0ex}{\normalfont\normalsize\centering\scshape}}
+\makeatother
 \emergencystretch=1.5em
 
 \title{\LARGE \bf
