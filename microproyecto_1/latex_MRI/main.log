@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.3.22)  26 OCT 2026 21:22
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.3.22)  3 NOV 2026 19:29
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -105,7 +105,7 @@ File: pdftex.def 2025/09/29 v1.2d Graphics/color driver for pdftex
 \Gin@req@height=\dimen159
 \Gin@req@width=\dimen160
 )
-** ATTENTION: Overriding IEEE standard margins (line 5).
+** ATTENTION: Overriding IEEE standard margins (line 7).
 (/usr/local/texlive/2026/texmf-dist/tex/latex/base/inputenc.sty
 Package: inputenc 2024/02/08 v1.3d Input encoding file
 \inpenc@prehook=\toks19
@@ -219,20 +219,20 @@ File: l3backend-pdftex.def 2025-10-09 L3 backend support: PDF output (pdfTeX)
 ) (./main.aux)
 \openout1 = `main.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 24.
-LaTeX Font Info:    ... okay on input line 24.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 24.
-LaTeX Font Info:    ... okay on input line 24.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 24.
-LaTeX Font Info:    ... okay on input line 24.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 24.
-LaTeX Font Info:    ... okay on input line 24.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 24.
-LaTeX Font Info:    ... okay on input line 24.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 24.
-LaTeX Font Info:    ... okay on input line 24.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 24.
-LaTeX Font Info:    ... okay on input line 24.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 31.
+LaTeX Font Info:    ... okay on input line 31.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 31.
+LaTeX Font Info:    ... okay on input line 31.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 31.
+LaTeX Font Info:    ... okay on input line 31.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 31.
+LaTeX Font Info:    ... okay on input line 31.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 31.
+LaTeX Font Info:    ... okay on input line 31.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 31.
+LaTeX Font Info:    ... okay on input line 31.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 31.
+LaTeX Font Info:    ... okay on input line 31.
  (/usr/local/texlive/2026/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count305
@@ -252,40 +252,77 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 48
  (/usr/local/texlive/2026/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
 ))
-LaTeX Font Info:    Trying to load font information for T1+pcr on input line 26.
+LaTeX Font Info:    Trying to load font information for T1+pcr on input line 33.
  (/usr/local/texlive/2026/texmf-dist/tex/latex/psnfss/t1pcr.fd
 File: t1pcr.fd 2001/06/04 font definitions for T1/pcr.
 )
-LaTeX Font Info:    Trying to load font information for U+msa on input line 35.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 42.
  (/usr/local/texlive/2026/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 35.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 42.
  (/usr/local/texlive/2026/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-Underfull \vbox (badness 4954) has occurred while \output is active []
+Underfull \hbox (badness 4569) in paragraph at lines 49--51
+[]\T1/ptm/b/n/10 Visión gen-eral del en-foque. \T1/ptm/m/n/10 El flujo com-prende
+ []
 
- [1{/usr/local/texlive/2026/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{/usr/local/texlive/2026/texmf-dist/fonts/enc/dvips/base/8r.enc}
+
+Underfull \hbox (badness 10000) in paragraph at lines 49--51
+\T1/ptm/m/n/10 cu-a-tro eta-pas: au-di-toría y dedu-pli-cación por hash
+ []
+
+
+Underfull \hbox (badness 2158) in paragraph at lines 49--51
+\T1/ptm/m/n/10 MD5, es-tandarización ge-ométrica con caché en RAM
+ []
+
+
+Underfull \hbox (badness 5817) in paragraph at lines 49--51
+\T1/ptm/m/n/10 (\T1/pcr/m/n/10 CachedMRIDataset\T1/ptm/m/n/10 ), búsqueda de ar-qui-tec-turas e
+ []
+
+
+Underfull \hbox (badness 5105) in paragraph at lines 55--56
+[]\T1/ptm/m/n/10 El análi-sis ex-plorato-rio iden-ti-ficó $\OT1/cmr/m/n/10 387$ \T1/ptm/m/n/10 res-olu-ciones
+ []
+
+
+Underfull \hbox (badness 7888) in paragraph at lines 60--66
+\T1/ptm/m/n/10 bre un sub-con-junto es-trat-i-fi-cado de \T1/pcr/m/n/10 Train \T1/ptm/m/n/10 ($\OT1/cmr/m/n/10 30 %$\T1/ptm/m/n/10 :
+ []
+
+
+Underfull \hbox (badness 7344) in paragraph at lines 60--66
+\T1/pcr/m/n/10 Sub-Train $\OT1/cmr/m/n/10 969$\T1/ptm/m/n/10 , \T1/pcr/m/n/10 Sub-Val $\OT1/cmr/m/n/10 208$\T1/ptm/m/n/10 , \T1/pcr/m/n/10 Sub-Test $\OT1/cmr/m/n/10 208$\T1/ptm/m/n/10 ;
+ []
+
+
+Underfull \hbox (badness 4819) in paragraph at lines 60--66
+\OT1/cmr/m/n/10 15$ \T1/ptm/m/n/10 épocas) se eval-u-aron cu-a-tro re-des: (1) \T1/ptm/b/n/10 Arq. 1
+ []
+
+
+Underfull \hbox (badness 5652) in paragraph at lines 60--66
+\T1/ptm/b/n/10 con-sec-u-ti-vas \T1/ptm/m/n/10 (\T1/pcr/m/n/10 Conv2d-BN-ReLU-Conv2d-BN-ReLU-
+ []
+
+[1{/usr/local/texlive/2026/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{/usr/local/texlive/2026/texmf-dist/fonts/enc/dvips/base/8r.enc}
 
 
 ]
+<figs/qualitative_predictions.pdf, id=16, 981.77716pt x 513.55061pt>
+File: figs/qualitative_predictions.pdf Graphic file (type pdf)
+<use figs/qualitative_predictions.pdf>
+Package pdftex.def Info: figs/qualitative_predictions.pdf  used on input line 112.
+(pdftex.def)             Requested size: 233.43144pt x 122.10275pt.
 
-LaTeX Warning: Reference `tab:metricas' on page 2 undefined on input line 74.
-
-
-LaTeX Warning: Reference `tab:confusion' on page 2 undefined on input line 92.
-
-
-Underfull \hbox (badness 1622) in paragraph at lines 117--118
-\T1/ptm/m/n/10 Asimismo, la com-para-ción frente al en-tre-namiento sin
+Underfull \hbox (badness 3930) in paragraph at lines 120--125
+\T1/ptm/m/n/10 gen-era un campo re-cep-tivo efec-tivo de $\OT1/cmr/m/n/10 5 \OMS/cmsy/m/n/10 ^^B \OT1/cmr/m/n/10 5$ \T1/ptm/m/n/10 con
  []
 
-
-Underfull \hbox (badness 2635) in paragraph at lines 122--123
-[]\T1/ptm/b/n/10 [POR COM-PLE-TAR SEC-CIÓN 4 DEL NOTE-
- []
-
+[2 <./figs/qualitative_predictions.pdf>]
 
 ** Conference Paper **
 Before submitting the final camera ready copy, remember to:
@@ -297,32 +334,27 @@ Before submitting the final camera ready copy, remember to:
  uses only Type 1 fonts and that every step in the generation
  process uses the US letter (8.5in X 11in) paper size.
 
-[2] (./main.aux)
+[3
+
+] (./main.aux)
  ***********
 LaTeX2e <2025-11-01>
 L3 programming layer <2026-01-19>
  ***********
-
-
-LaTeX Warning: There were undefined references.
-
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
  ) 
 Here is how much of TeX's memory you used:
- 3631 strings out of 467525
- 54270 string characters out of 5418982
- 473549 words of memory out of 5000000
- 32497 multiletter control sequences out of 15000+600000
- 744809 words of font info for 162 fonts, out of 8000000 for 9000
+ 3665 strings out of 467525
+ 54826 string characters out of 5418982
+ 480620 words of memory out of 5000000
+ 32519 multiletter control sequences out of 15000+600000
+ 751239 words of font info for 176 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 57i,10n,65p,949b,365s stack positions out of 10000i,1000n,20000p,200000b,200000s
-</usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on main.pdf (2 pages, 159017 bytes).
+ 57i,18n,65p,1006b,367s stack positions out of 10000i,1000n,20000p,200000b,200000s
+</usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmmib8.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/urw/courier/ucrb8a.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
+Output written on main.pdf (3 pages, 678636 bytes).
 PDF statistics:
- 77 PDF objects out of 1000 (max. 8388607)
- 46 compressed objects within 1 object stream
+ 185 PDF objects out of 1000 (max. 8388607)
+ 74 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 1 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 6 words of extra memory for PDF output out of 10000 (max. 10000000)
 
