@@ -1,0 +1,24 @@
+[project]
+name = "microproyecto-2"
+version = "0.1.0"
+description = "Clasificación de Sentimientos de Reseñas de Películas en IMDb con Redes Neuronales Recurrentes"
+readme = "README.md"
+requires-python = ">=3.11,<3.12"
+dependencies = [
+    "ipykernel>=7.4.0",
+    "jupyter>=1.1.1",
+    "matplotlib>=3.8.0",
+    "nltk>=3.8.0",
+    "numpy>=1.26.0",
+    "pandas>=2.0.0",
+    "scikit-learn>=1.4.0",
+    "seaborn>=0.13.0",
+    "torch>=2.2.0,<2.3.0",
+]
+
+[project.scripts]
+microproyecto-2 = "microproyecto_2:main"
+
+[build-system]
+requires = ["uv_build>=0.13.6,<0.14.0"]
+build-backend = "uv_build"
