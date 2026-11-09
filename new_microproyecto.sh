@@ -60,11 +60,13 @@ uv run python -m ipykernel install --user --name "$KERNEL_NAME" --display-name "
 # 4. Ensure .vscode/settings.json includes this folder in python.venvFolders
 cd "$REPO_ROOT"
 if [[ -f ".vscode/settings.json" ]]; then
-    python3 - "$PROJECT_DIR" <<'PYEOF'
+    python3 - "$PROJECT_DIR" "$REPO_ROOT" <<'PYEOF'
 import json, sys
 from pathlib import Path
 
 project_dir = sys.argv[1]
+repo_root = sys.argv[2]
+full_project_dir = f"{repo_root}/{project_dir}"
 settings_path = Path(".vscode/settings.json")
 try:
     data = json.loads(settings_path.read_text())
@@ -72,9 +74,18 @@ except Exception:
     data = {}
 
 folders = data.setdefault("python.venvFolders", [])
-if project_dir not in folders:
-    folders.append(project_dir)
-    settings_path.write_text(json.dumps(data, indent=4) + "\n")
+if full_project_dir not in folders:
+    folders.append(full_project_dir)
+
+projects = data.setdefault("python-envs.pythonProjects", [])
+if not any(p.get("path") == project_dir for p in projects):
+    projects.append({
+        "path": project_dir,
+        "envManager": "ms-python.python:venv",
+        "packageManager": "ms-python.python:pip",
+    })
+
+settings_path.write_text(json.dumps(data, indent=4) + "\n")
 PYEOF
 fi
 
