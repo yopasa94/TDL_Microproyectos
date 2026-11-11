@@ -1,10 +1,10 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.3.22)  3 NOV 2026 20:08
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.3.22)  10 NOV 2026 20:39
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
-**/Users/silvioyopasaromero/Documents/MAC_ANDES_LOCAL/ANDES/4_Tecnicas_Deep_Learning/DEEP_LEARN_CODING/MICROPROYECTOS/microproyecto_1/latex_MRI/main
-(/Users/silvioyopasaromero/Documents/MAC_ANDES_LOCAL/ANDES/4_Tecnicas_Deep_Learning/DEEP_LEARN_CODING/MICROPROYECTOS/microproyecto_1/latex_MRI/main.tex
+**/Users/silvioyopasaromero/Documents/MAC_ANDES_LOCAL/ANDES/4_Tecnicas_Deep_Learning/DEEP_LEARN_CODING/MICROPROYECTOS/microproyecto_2/latex_MRI/main
+(/Users/silvioyopasaromero/Documents/MAC_ANDES_LOCAL/ANDES/4_Tecnicas_Deep_Learning/DEEP_LEARN_CODING/MICROPROYECTOS/microproyecto_2/latex_MRI/main.tex
 LaTeX2e <2025-11-01>
 L3 programming layer <2026-01-19>
 (./ieeeconf.cls
@@ -214,9 +214,38 @@ Package: multirow 2024/11/12 v2.9 Span multiple rows of a table
 \multirow@cntb=\count303
 \multirow@dima=\skip59
 \bigstrutjot=\dimen183
+) (/usr/local/texlive/2026/texmf-dist/tex/latex/microtype/microtype.sty
+Package: microtype 2026/03/01 v3.2d Micro-typographical refinements (RS)
+ (/usr/local/texlive/2026/texmf-dist/tex/latex/etoolbox/etoolbox.sty
+Package: etoolbox 2025/10/02 v2.5m e-TeX tools for LaTeX (JAW)
+\etb@tempcnta=\count304
+)
+\MT@toks=\toks26
+\MT@tempbox=\box56
+\MT@count=\count305
+LaTeX Info: Redefining \noprotrusionifhmode on input line 1084.
+LaTeX Info: Redefining \leftprotrusion on input line 1085.
+\MT@prot@toks=\toks27
+LaTeX Info: Redefining \rightprotrusion on input line 1104.
+LaTeX Info: Redefining \textls on input line 1449.
+\MT@outer@kern=\dimen184
+LaTeX Info: Redefining \microtypecontext on input line 2053.
+LaTeX Info: Redefining \textmicrotypecontext on input line 2070.
+\MT@listname@count=\count306
+ (/usr/local/texlive/2026/texmf-dist/tex/latex/microtype/microtype-pdftex.def
+File: microtype-pdftex.def 2026/03/01 v3.2d Definitions specific to pdftex (RS)
+LaTeX Info: Redefining \lsstyle on input line 944.
+LaTeX Info: Redefining \lslig on input line 944.
+\MT@outer@space=\skip60
+)
+Package microtype Info: Loading configuration file microtype.cfg.
+ (/usr/local/texlive/2026/texmf-dist/tex/latex/microtype/microtype.cfg
+File: microtype.cfg 2026/03/01 v3.2d microtype main configuration file (RS)
+)
+LaTeX Info: Redefining \microtypesetup on input line 3065.
 ) (/usr/local/texlive/2026/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
 File: l3backend-pdftex.def 2025-10-09 L3 backend support: PDF output (pdfTeX)
-\l__color_backend_stack_int=\count304
+\l__color_backend_stack_int=\count307
 ) (./main.aux)
 \openout1 = `main.aux'.
 
@@ -236,96 +265,84 @@ LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 38.
 LaTeX Font Info:    ... okay on input line 38.
  (/usr/local/texlive/2026/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count305
-\scratchdimen=\dimen184
-\scratchbox=\box56
-\nofMPsegments=\count306
-\nofMParguments=\count307
-\everyMPshowfont=\toks26
-\MPscratchCnt=\count308
-\MPscratchDim=\dimen185
-\MPnumerator=\count309
-\makeMPintoPDFobject=\count310
-\everyMPtoPDFconversion=\toks27
+\scratchcounter=\count308
+\scratchdimen=\dimen185
+\scratchbox=\box57
+\nofMPsegments=\count309
+\nofMParguments=\count310
+\everyMPshowfont=\toks28
+\MPscratchCnt=\count311
+\MPscratchDim=\dimen186
+\MPnumerator=\count312
+\makeMPintoPDFobject=\count313
+\everyMPtoPDFconversion=\toks29
 ) (/usr/local/texlive/2026/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
 Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 485.
  (/usr/local/texlive/2026/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
 ))
+LaTeX Info: Redefining \microtypecontext on input line 38.
+Package microtype Info: Applying patch `item' on input line 38.
+Package microtype Info: Applying patch `toc' on input line 38.
+Package microtype Info: Applying patch `eqnum' on input line 38.
+Package microtype Info: Applying patch `footnote' on input line 38.
+Package microtype Info: Applying patch `verbatim' on input line 38.
+LaTeX Info: Redefining \microtypesetup on input line 38.
+Package microtype Info: Generating PDF output.
+Package microtype Info: Character protrusion enabled (level 2).
+Package microtype Info: Using default protrusion set `alltext'.
+Package microtype Info: Automatic font expansion enabled (level 2),
+(microtype)             stretch: 20, shrink: 20, step: 1, non-selected.
+Package microtype Info: Using default expansion set `alltext-nott'.
+Package microtype Info: Patching command `\showhyphens'.
+Package microtype Info: No adjustment of tracking.
+Package microtype Info: No adjustment of interword spacing.
+Package microtype Info: No adjustment of character kerning.
+ (/usr/local/texlive/2026/texmf-dist/tex/latex/microtype/mt-ptm.cfg
+File: mt-ptm.cfg 2006/04/20 v1.7 microtype config. file: Times (RS)
+)
 LaTeX Font Info:    Trying to load font information for T1+pcr on input line 40.
  (/usr/local/texlive/2026/texmf-dist/tex/latex/psnfss/t1pcr.fd
 File: t1pcr.fd 2001/06/04 font definitions for T1/pcr.
 )
-LaTeX Font Info:    Trying to load font information for U+msa on input line 49.
+Package microtype Info: Loading generic protrusion settings for font family
+(microtype)             `pcr' (encoding: T1).
+(microtype)             For optimal results, create family-specific settings.
+(microtype)             See the microtype manual for details.
+ (/usr/local/texlive/2026/texmf-dist/tex/latex/microtype/mt-cmr.cfg
+File: mt-cmr.cfg 2013/05/19 v2.2 microtype config. file: Computer Modern Roman (RS)
+)
+LaTeX Font Info:    Trying to load font information for U+msa on input line 51.
  (/usr/local/texlive/2026/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+) (/usr/local/texlive/2026/texmf-dist/tex/latex/microtype/mt-msa.cfg
+File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 49.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 51.
  (/usr/local/texlive/2026/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+) (/usr/local/texlive/2026/texmf-dist/tex/latex/microtype/mt-msb.cfg
+File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 )
-Underfull \hbox (badness 4569) in paragraph at lines 56--58
-[]\T1/ptm/b/n/10 Visión gen-eral del en-foque. \T1/ptm/m/n/10 El flujo com-prende
+Underfull \hbox (badness 6461) in paragraph at lines 71--73
+[]\T1/ptm/b/n/10 (+20) Función de pér-dida, op-ti-mización y métri-cas.
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 56--58
-\T1/ptm/m/n/10 cu-a-tro eta-pas: au-di-toría y dedu-pli-cación por hash
- []
-
-
-Underfull \hbox (badness 2158) in paragraph at lines 56--58
-\T1/ptm/m/n/10 MD5, es-tandarización ge-ométrica con caché en RAM
- []
-
-
-Underfull \hbox (badness 5817) in paragraph at lines 56--58
-\T1/ptm/m/n/10 (\T1/pcr/m/n/10 CachedMRIDataset\T1/ptm/m/n/10 ), búsqueda de ar-qui-tec-turas e
- []
-
-
-Underfull \hbox (badness 5105) in paragraph at lines 62--63
-[]\T1/ptm/m/n/10 El análi-sis ex-plorato-rio iden-ti-ficó $\OT1/cmr/m/n/10 387$ \T1/ptm/m/n/10 res-olu-ciones
- []
-
-
-Underfull \hbox (badness 7888) in paragraph at lines 67--73
-\T1/ptm/m/n/10 bre un sub-con-junto es-trat-i-fi-cado de \T1/pcr/m/n/10 Train \T1/ptm/m/n/10 ($\OT1/cmr/m/n/10 30 %$\T1/ptm/m/n/10 :
- []
-
-
-Underfull \hbox (badness 7344) in paragraph at lines 67--73
-\T1/pcr/m/n/10 Sub-Train $\OT1/cmr/m/n/10 969$\T1/ptm/m/n/10 , \T1/pcr/m/n/10 Sub-Val $\OT1/cmr/m/n/10 208$\T1/ptm/m/n/10 , \T1/pcr/m/n/10 Sub-Test $\OT1/cmr/m/n/10 208$\T1/ptm/m/n/10 ;
- []
-
-
-Underfull \hbox (badness 4819) in paragraph at lines 67--73
-\OT1/cmr/m/n/10 15$ \T1/ptm/m/n/10 épocas) se eval-u-aron cu-a-tro re-des: (1) \T1/ptm/b/n/10 Arq. 1
- []
-
-
-Underfull \hbox (badness 5652) in paragraph at lines 67--73
-\T1/ptm/b/n/10 con-sec-u-ti-vas \T1/ptm/m/n/10 (\T1/pcr/m/n/10 Conv2d-BN-ReLU-Conv2d-BN-ReLU-
+Underfull \hbox (badness 10000) in paragraph at lines 71--73
+\T1/ptm/m/n/10 (+20) Se uti-lizó la en-tropía cruzada bi-na-ria con log-its
  []
 
 [1{/usr/local/texlive/2026/texmf-var/fonts/map/pdftex/updmap/pdftex.map}{/usr/local/texlive/2026/texmf-dist/fonts/enc/dvips/base/8r.enc}
 
 
 ]
-<figs/qualitative_predictions.pdf, id=16, 981.77716pt x 513.55061pt>
-File: figs/qualitative_predictions.pdf Graphic file (type pdf)
-<use figs/qualitative_predictions.pdf>
-Package pdftex.def Info: figs/qualitative_predictions.pdf  used on input line 119.
-(pdftex.def)             Requested size: 233.43144pt x 122.10275pt.
-
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-
-Underfull \hbox (badness 3930) in paragraph at lines 127--132
-\T1/ptm/m/n/10 gen-era un campo re-cep-tivo efec-tivo de $\OT1/cmr/m/n/10 5 \OMS/cmsy/m/n/10 ^^B \OT1/cmr/m/n/10 5$ \T1/ptm/m/n/10 con
- []
+<figs/confusion_roc.pdf, id=20, 467.47775pt x 170.89284pt>
+File: figs/confusion_roc.pdf Graphic file (type pdf)
+<use figs/confusion_roc.pdf>
+Package pdftex.def Info: figs/confusion_roc.pdf  used on input line 133.
+(pdftex.def)             Requested size: 240.80269pt x 88.02773pt.
 
 
 ** Conference Paper **
@@ -338,25 +355,25 @@ Before submitting the final camera ready copy, remember to:
  uses only Type 1 fonts and that every step in the generation
  process uses the US letter (8.5in X 11in) paper size.
 
-[2 <./figs/qualitative_predictions.pdf>] (./main.aux)
+[2 <./figs/confusion_roc.pdf>] (./main.aux)
  ***********
 LaTeX2e <2025-11-01>
 L3 programming layer <2026-01-19>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 3665 strings out of 467525
- 54826 string characters out of 5418982
- 480047 words of memory out of 5000000
- 32519 multiletter control sequences out of 15000+600000
- 751239 words of font info for 176 fonts, out of 8000000 for 9000
+ 6303 strings out of 467525
+ 98089 string characters out of 5418982
+ 559438 words of memory out of 5000000
+ 34849 multiletter control sequences out of 15000+600000
+ 763060 words of font info for 348 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 57i,18n,65p,1006b,367s stack positions out of 10000i,1000n,20000p,200000b,200000s
-</usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmmib8.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/urw/courier/ucrb8a.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on main.pdf (2 pages, 678347 bytes).
+ 57i,14n,65p,1139b,385s stack positions out of 10000i,1000n,20000p,200000b,200000s
+</usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx8.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/urw/courier/ucrb8a.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2026/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
+Output written on main.pdf (2 pages, 237135 bytes).
 PDF statistics:
- 182 PDF objects out of 1000 (max. 8388607)
- 72 compressed objects within 1 object stream
+ 191 PDF objects out of 1000 (max. 8388607)
+ 74 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 6 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 65542 words of extra memory for PDF output out of 74296 (max. 10000000)
 

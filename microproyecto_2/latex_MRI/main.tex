@@ -56,12 +56,12 @@ El objetivo de este trabajo es diseñar y validar un método reproducible basado
 \textbf{Datos y preprocesamiento.} 
 Se utilizó la colección pública de reseñas de IMDb \cite{c3} en su subconjunto de $40\,000$ muestras ($0=\text{negativa}$, $1=\text{positiva}$). La auditoría detectó $278$ textos duplicados idénticos ($205$ negativos y $73$ positivos) sin contradicciones. Al descartar copias redundantes, el conjunto consta de $N = 39\,722$ reseñas únicas balanceadas: $19\,814$ negativas ($49.88\,\%$) y $19\,908$ positivas ($50.12\,\%$, razón de desbalance $1.005$).
 
-El análisis exploratorio identificó que el $58.44\,\%$ de las reseñas contenía etiquetas HTML, el $86.93\,\%$ contracciones informales y el $1.26\,\%$ caracteres no ASCII de Windows-1252. El pipeline determinista aplicó: (i) remoción de etiquetas HTML y URLs; (ii) normalización Unicode NFKD y decodificación ASCII; (iii) expansión de contracciones (p.~ej., ``\textit{can't}'' $\to$ ``\textit{cannot}'', ``\textit{n't}'' $\to$ ``\textit{not}''); y (iv) tokenización alfanumérica en minúsculas. 
+El análisis exploratorio identificó que el $58.44\,\%$ de las reseñas contenía etiquetas HTML, el $86.93\,\%$ contracciones informales, el $9.35\,\%$ caracteres no ASCII y el $1.26\,\%$ apóstrofos tipográficos de Windows-1252. El pipeline determinista aplicó: (i) remoción de etiquetas HTML y URLs; (ii) normalización Unicode NFKD y decodificación ASCII; (iii) expansión de contracciones (p.~ej., ``\textit{can't}'' $\to$ ``\textit{cannot}'', ``\textit{n't}'' $\to$ ``\textit{not}''); y (iv) tokenización alfanumérica en minúsculas.
 
 La longitud en palabras presenta una distribución asimétrica ($\mu = 229.2$, mediana $172$, percentil $95 = 585$). Se fijó una longitud máxima de $\text{MAX\_LEN} = 400$ tokens con truncado por la cola (\textit{tail truncation}), preservando el cierre evaluativo donde los revisores sintetizan su veredicto. Para optimizar el cómputo, se implementó muestreo por cubetas (\textit{BucketBatchSampler}, lote $256$) con relleno dinámico mediante el token \texttt{<pad>}.
 
 \textbf{Partición y protocolo de evaluación.} 
-El conjunto depurado se dividió estratificadamente (semilla $42$) en \texttt{Train} ($70\,\%$, $27\,804$), \texttt{Val} ($15\,\%$, $5\,959$) y \texttt{Test} ($15\,\%$, $5\,959$). El vocabulario ($30\,731$ términos) se construyó \textbf{exclusivamente sobre \texttt{Train}} con frecuencia mínima $\ge 2$, definiendo los tokens \texttt{<pad>} ($0$) y \texttt{<unk>} ($1$). En \texttt{Test}, la cobertura léxica alcanzó el $99.93\,\%$. 
+El conjunto depurado se dividió estratificadamente (semilla $42$) en \texttt{Train} ($70\,\%$, $27\,804$), \texttt{Val} ($15\,\%$, $5\,959$) y \texttt{Test} ($15\,\%$, $5\,959$). El vocabulario ($30\,731$ términos) se construyó \textbf{exclusivamente sobre \texttt{Train}} con frecuencia mínima $\ge 5$, definiendo los tokens \texttt{<pad>} ($0$) y \texttt{<unk>} ($1$). En \texttt{Test}, la cobertura léxica alcanzó el $99.93\,\%$.
 
 Se garantizó la total independencia de particiones: la exploración de modelos y el ajuste de hiperparámetros se realizaron sobre un subconjunto del $25\,\%$ de \texttt{Train} ($6\,951$) evaluado en \texttt{Val} ($5\,959$). El conjunto \texttt{Test} ($5\,959$ reseñas) se mantuvo \textbf{estrictamente aislado e intacto}, siendo evaluado una única vez sobre el modelo reentrenado.
 
@@ -74,15 +74,15 @@ Se utilizó la entropía cruzada binaria con logits (\texttt{BCEWithLogitsLoss})
 \mathcal{L}(z, y) = \max(z, 0) - z \cdot y + \log\left(1 + e^{-|z|}\right)
 \label{eq:bce}
 \end{equation}
-Esta formulación combina la sigmoide y la pérdida binaria en una sola expresión numéricamente estable con el truco \textit{log-sum-exp}, previniendo gradientes nulos ante logits extremos y produciendo probabilidades calibradas $P(y=1|x) = \sigma(z)$. Se aplicó \texttt{Adam} ($\eta = 0.002$, $\lambda = 10^{-5}$) con recorte de gradiente ($\|\nabla\|_2 \le 1.0$). Se monitorizaron Exactitud, Precisión, Sensibilidad, \textit{Macro F1} y \textit{ROC-AUC}. La métrica \textit{F1-Score} rigió la selección del modelo para equilibrar la detección entre críticas negativas y positivas.
+Esta formulación combina la sigmoide y la pérdida binaria en una sola expresión numéricamente estable con el truco \textit{log-sum-exp}, previniendo gradientes nulos ante logits extremos y produciendo probabilidades calibradas $P(y=1|x) = \sigma(z)$. Se aplicó \texttt{Adam} ($\eta = 0.002$ sin decaimiento $\ell_2$ para no contraer los pesos recurrentes $\mathbf{W}_{hh}$ ni acentuar el desvanecimiento del gradiente; $\eta_{\text{base}} = 0.001$ y $\eta_{\text{embed}} = 0.0001$ en \textit{fine-tuning}) con recorte de gradiente ($\|\nabla\|_2 \le 1.0$). Se monitorizaron Exactitud, Precisión, Sensibilidad, \textit{Macro F1} y \textit{ROC-AUC}. La métrica \textit{F1-Score} rigió la selección del modelo para equilibrar la detección entre críticas negativas y positivas.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Resultados}
 
 \textbf{Comparación cuantitativa de arquitecturas (Validación).}
-La Tabla~\ref{tab:arquitecturas} presenta los resultados multi-semilla (semillas $42$ y $123$, $15$ épocas, paciencia $3$) evaluados en \texttt{Val} ($n = 5\,959$). La RNN simple sufrió severo desvanecimiento de gradiente, colapsando en exactitud ($65.98 \pm 10.58\,\%$) con alta dispersión. Las celdas con compuertas superaron el $84\,\%$. La \textbf{GRU unidireccional} obtuvo el mejor balance general (\textit{F1} de $86.71 \pm 0.23\,\%$, \textit{ROC-AUC} de $93.61\,\%$), superando a LSTM ($85.15\,\%$) y BiLSTM ($85.68\,\%$), con menor tiempo por época ($106.7\text{ s}$ vs.~$182.3\text{ s}$). 
+La Tabla~\ref{tab:arquitecturas} presenta los resultados multi-semilla (semillas $42$ y $123$, $15$ épocas, paciencia $3$) evaluados en \texttt{Val} ($n = 5\,959$). La RNN simple sufrió severo desvanecimiento de gradiente, colapsando en exactitud ($65.98 \pm 10.58\,\%$) con alta dispersión. Las celdas con compuertas superaron el $84\,\%$. La \textbf{GRU unidireccional} obtuvo el mejor balance general (\textit{F1} de $86.71 \pm 0.23\,\%$, \textit{ROC-AUC} de $93.61\,\%$), superando a LSTM ($85.15\,\%$) y BiLSTM ($85.68\,\%$), con menor tiempo de entrenamiento ($26.5\text{ s}$ vs.~$33.0\text{ s}$). 
 
-Al habilitar el ajuste fino de \textit{embeddings} en BiLSTM (\texttt{GloVe fine-tuning}), el rendimiento cayó a $83.76\,\%$ y el tiempo se cuadruplicó ($453.0\text{ s}$), evidenciando sobreajuste al actualizar $3.16\text{M}$ de parámetros frente a los $85\text{k}$ del modelo congelado.
+Al habilitar el ajuste fino de \textit{embeddings} en BiLSTM (\texttt{GloVe fine-tuning}), el rendimiento cayó a $83.76\,\%$ y el tiempo se triplicó ($94.2\text{ s}$), evidenciando sobreajuste al actualizar $3.16\text{M}$ de parámetros frente a los $84.7\text{k}$ del modelo congelado.
 
 \begin{table}[t]
 \centering
@@ -95,11 +95,11 @@ Al habilitar el ajuste fino de \textit{embeddings} en BiLSTM (\texttt{GloVe fine
 \toprule
 \textbf{Arquitectura} & \textbf{Parám. Entr.} & \textbf{Val Loss} & \textbf{Acc (\%)} & \textbf{F1-Score (\%)} & \textbf{ROC-AUC (\%)} & \textbf{Tiempo (s)} \\
 \midrule
-1. RNN simple (GloVe cong.) & $10.8\text{ k}$ & $0.608 \pm 0.092$ & $65.98 \pm 10.58$ & $71.66 \pm 3.52$ & $76.80 \pm 5.13$ & $\hphantom{0}26.2 \pm 5.5$ \\
-2. \textbf{GRU unidir. (GloVe cong.)} & $\mathbf{32.0\text{ k}}$ & $\mathbf{0.335 \pm 0.015}$ & $\mathbf{86.22 \pm 0.76}$ & $\mathbf{86.71 \pm 0.23}$ & $\mathbf{93.61 \pm 0.08}$ & $106.7 \pm 1.6$ \\
-3. LSTM unidir. (GloVe cong.) & $42.6\text{ k}$ & $0.369 \pm 0.007$ & $84.53 \pm 0.07$ & $85.15 \pm 0.29$ & $92.27 \pm 0.47$ & $107.2 \pm 10.4$ \\
-4. BiLSTM (GloVe cong.) & $85.2\text{ k}$ & $0.339 \pm 0.040$ & $85.58 \pm 1.22$ & $85.68 \pm 0.97$ & $93.00 \pm 1.63$ & $182.3 \pm 40.1$ \\
-5. BiLSTM (GloVe fine-tuning) & $3\,158.3\text{ k}$ & $0.387 \pm 0.023$ & $83.15 \pm 1.26$ & $83.76 \pm 1.70$ & $91.22 \pm 1.65$ & $453.0 \pm 131.1$ \\
+1. RNN simple (GloVe cong.) & $10.7\text{ k}$ & $0.608 \pm 0.092$ & $65.98 \pm 10.58$ & $71.66 \pm 3.52$ & $76.80 \pm 5.13$ & $12.6 \pm 4.0$ \\
+2. \textbf{GRU unidir. (GloVe cong.)} & $\mathbf{32.0\text{ k}}$ & $\mathbf{0.335 \pm 0.015}$ & $\mathbf{86.22 \pm 0.76}$ & $\mathbf{86.71 \pm 0.23}$ & $\mathbf{93.61 \pm 0.08}$ & $\mathbf{26.5 \pm 0.1}$ \\
+3. LSTM unidir. (GloVe cong.) & $42.5\text{ k}$ & $0.369 \pm 0.007$ & $84.53 \pm 0.07$ & $85.15 \pm 0.29$ & $92.27 \pm 0.47$ & $27.6 \pm 0.0$ \\
+4. BiLSTM (GloVe cong.) & $84.7\text{ k}$ & $0.339 \pm 0.040$ & $85.58 \pm 1.22$ & $85.68 \pm 0.97$ & $93.00 \pm 1.63$ & $33.0 \pm 8.0$ \\
+5. BiLSTM (GloVe fine-tuning) & $3\,157.8\text{ k}$ & $0.387 \pm 0.023$ & $83.15 \pm 1.26$ & $83.76 \pm 1.70$ & $91.22 \pm 1.65$ & $94.2 \pm 20.9$ \\
 \bottomrule
 \end{tabular}}
 \end{table}
