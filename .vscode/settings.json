@@ -1,9 +1,21 @@
 {
-    "python.defaultInterpreterPath": "${workspaceFolder}/microproyecto_1/.venv/bin/python",
+    "python.defaultInterpreterPath": "${workspaceFolder}/microproyecto_2/.venv/bin/python",
     "python.venvFolders": [
-        "microproyecto_1",
-        "microproyecto_2",
-        "microproyecto_3",
-        "microproyecto_4"
+        "${workspaceFolder}/microproyecto_1",
+        "${workspaceFolder}/microproyecto_2",
+        "${workspaceFolder}/microproyecto_3",
+        "${workspaceFolder}/microproyecto_4"
+    ],
+    "python-envs.pythonProjects": [
+        {
+            "path": "microproyecto_1",
+            "envManager": "ms-python.python:venv",
+            "packageManager": "ms-python.python:pip"
+        },
+        {
+            "path": "microproyecto_2",
+            "envManager": "ms-python.python:venv",
+            "packageManager": "ms-python.python:pip"
+        }
     ]
 }
