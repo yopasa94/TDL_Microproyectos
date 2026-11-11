@@ -22,3 +22,14 @@ __pycache__/
 **/.DS_Store
 
 microproyecto_2/data/
+
+# LaTeX build artifacts
+*.aux
+*.log
+*.synctex.gz
+*.out
+*.toc
+*.fls
+*.fdb_latexmk
+*.bbl
+*.blg

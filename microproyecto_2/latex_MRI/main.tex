@@ -13,6 +13,14 @@
 \usepackage{booktabs}
 \usepackage{multirow}
 \usepackage{microtype}
+\usepackage{etoolbox}
+
+% Rótulos en español (ieeeconf.cls los fija en inglés)
+\makeatletter
+\def\fnum@table{TABLA~\thetable}
+\patchcmd{\thebibliography}{\section*{References}}{\section*{Referencias}}{}{}
+\patchcmd{\thebibliography}{{References}}{{Referencias}}{}{}
+\makeatother
 
 \setlength{\textfloatsep}{2pt plus 1pt minus 1pt}
 \setlength{\floatsep}{2pt plus 1pt minus 1pt}
@@ -80,9 +88,9 @@ Esta formulación combina la sigmoide y la pérdida binaria en una sola expresi�
 \section{Resultados}
 
 \textbf{Comparación cuantitativa de arquitecturas (Validación).}
-La Tabla~\ref{tab:arquitecturas} presenta los resultados multi-semilla (semillas $42$ y $123$, $15$ épocas, paciencia $3$) evaluados en \texttt{Val} ($n = 5\,959$). La RNN simple sufrió severo desvanecimiento de gradiente, colapsando en exactitud ($65.98 \pm 10.58\,\%$) con alta dispersión. Las celdas con compuertas superaron el $84\,\%$. La \textbf{GRU unidireccional} obtuvo el mejor balance general (\textit{F1} de $86.71 \pm 0.23\,\%$, \textit{ROC-AUC} de $93.61\,\%$), superando a LSTM ($85.15\,\%$) y BiLSTM ($85.68\,\%$), con menor tiempo de entrenamiento ($26.5\text{ s}$ vs.~$33.0\text{ s}$). 
+La Tabla~\ref{tab:arquitecturas} presenta los resultados multi-semilla (semillas $42$ y $123$, $15$ épocas, paciencia $3$) evaluados en \texttt{Val} ($n = 5\,959$). La RNN simple sufrió severo desvanecimiento de gradiente, colapsando en exactitud ($65.98 \pm 10.58\,\%$) con alta dispersión. Las celdas con compuertas superaron el $84\,\%$. La \textbf{GRU unidireccional} obtuvo el mejor balance general (\textit{F1} de $86.71 \pm 0.23\,\%$, \textit{ROC-AUC} de $93.61\,\%$), superando a LSTM ($85.15\,\%$) y BiLSTM ($85.68\,\%$), con menor tiempo de entrenamiento ($106.7\text{ s}$ vs.~$182.3\text{ s}$). 
 
-Al habilitar el ajuste fino de \textit{embeddings} en BiLSTM (\texttt{GloVe fine-tuning}), el rendimiento cayó a $83.76\,\%$ y el tiempo se triplicó ($94.2\text{ s}$), evidenciando sobreajuste al actualizar $3.16\text{M}$ de parámetros frente a los $84.7\text{k}$ del modelo congelado.
+Al habilitar el ajuste fino de \textit{embeddings} en BiLSTM (\texttt{GloVe fine-tuning}), el rendimiento cayó a $83.76\,\%$ y el tiempo aumentó $\approx 2.5\times$ ($453.0\text{ s}$), evidenciando sobreajuste al actualizar $3.16\text{M}$ de parámetros frente a los $85.2\text{k}$ del modelo congelado.
 
 \begin{table}[t]
 \centering
@@ -95,11 +103,11 @@ Al habilitar el ajuste fino de \textit{embeddings} en BiLSTM (\texttt{GloVe fine
 \toprule
 \textbf{Arquitectura} & \textbf{Parám. Entr.} & \textbf{Val Loss} & \textbf{Acc (\%)} & \textbf{F1-Score (\%)} & \textbf{ROC-AUC (\%)} & \textbf{Tiempo (s)} \\
 \midrule
-1. RNN simple (GloVe cong.) & $10.7\text{ k}$ & $0.608 \pm 0.092$ & $65.98 \pm 10.58$ & $71.66 \pm 3.52$ & $76.80 \pm 5.13$ & $12.6 \pm 4.0$ \\
-2. \textbf{GRU unidir. (GloVe cong.)} & $\mathbf{32.0\text{ k}}$ & $\mathbf{0.335 \pm 0.015}$ & $\mathbf{86.22 \pm 0.76}$ & $\mathbf{86.71 \pm 0.23}$ & $\mathbf{93.61 \pm 0.08}$ & $\mathbf{26.5 \pm 0.1}$ \\
-3. LSTM unidir. (GloVe cong.) & $42.5\text{ k}$ & $0.369 \pm 0.007$ & $84.53 \pm 0.07$ & $85.15 \pm 0.29$ & $92.27 \pm 0.47$ & $27.6 \pm 0.0$ \\
-4. BiLSTM (GloVe cong.) & $84.7\text{ k}$ & $0.339 \pm 0.040$ & $85.58 \pm 1.22$ & $85.68 \pm 0.97$ & $93.00 \pm 1.63$ & $33.0 \pm 8.0$ \\
-5. BiLSTM (GloVe fine-tuning) & $3\,157.8\text{ k}$ & $0.387 \pm 0.023$ & $83.15 \pm 1.26$ & $83.76 \pm 1.70$ & $91.22 \pm 1.65$ & $94.2 \pm 20.9$ \\
+1. RNN simple (GloVe cong.) & $10.8\text{ k}$ & $0.608 \pm 0.092$ & $65.98 \pm 10.58$ & $71.66 \pm 3.52$ & $76.80 \pm 5.13$ & $26.2 \pm 5.5$ \\
+2. \textbf{GRU unidir. (GloVe cong.)} & $\mathbf{32.0\text{ k}}$ & $\mathbf{0.335 \pm 0.015}$ & $\mathbf{86.22 \pm 0.76}$ & $\mathbf{86.71 \pm 0.23}$ & $\mathbf{93.61 \pm 0.08}$ & $\mathbf{106.7 \pm 1.6}$ \\
+3. LSTM unidir. (GloVe cong.) & $42.6\text{ k}$ & $0.369 \pm 0.007$ & $84.53 \pm 0.07$ & $85.15 \pm 0.29$ & $92.27 \pm 0.47$ & $107.2 \pm 10.4$ \\
+4. BiLSTM (GloVe cong.) & $85.2\text{ k}$ & $0.339 \pm 0.040$ & $85.58 \pm 1.22$ & $85.68 \pm 0.97$ & $93.00 \pm 1.63$ & $182.3 \pm 40.1$ \\
+5. BiLSTM (GloVe fine-tuning) & $3\,158.3\text{ k}$ & $0.387 \pm 0.023$ & $83.15 \pm 1.26$ & $83.76 \pm 1.70$ & $91.22 \pm 1.65$ & $453.0 \pm 131.1$ \\
 \bottomrule
 \end{tabular}}
 \end{table}
@@ -136,7 +144,7 @@ Evaluada en \texttt{Test} ($n = 5\,959$, Tabla~\ref{tab:test_metricas}), alcanz�
 \end{figure}
 
 \textbf{Análisis cualitativo e interpretabilidad.}
-Las probabilidades en \texttt{Test} exhiben distribución bimodal (mediana $>0.99$ en aciertos). Al evaluar la oclusión de tokens ($\Delta p_i = P_{\text{base}} - P_{\text{enmascarado}}$ con \texttt{<pad>}), adjetivos como ``\textit{terrible}'' o ``\textit{masterpiece}'' modulan fuertemente la predicción. En pruebas de estrés lingüístico ($6$ críticas complejas), el modelo acertó $3$ de $6$:
+Las probabilidades en \texttt{Test} exhiben distribución bimodal (concentrada en los extremos $0$ y $1$). Al evaluar la oclusión de tokens ($\Delta p_i = P_{\text{base}} - P_{\text{enmascarado}}$ con \texttt{<pad>}), adjetivos como ``\textit{terrible}'' o ``\textit{brilliant}'' modulan fuertemente la predicción. En pruebas de estrés lingüístico ($6$ críticas complejas), el modelo acertó $3$ de $6$:
 \textbf{Aciertos ($3/6$):} resolvió la negación de adjetivos positivos (``\textit{plot is not good...}'', negativa con $P=0.1485$, $\Delta p = -0.42$ por ``\textit{not}''), contrastes adversativos positivo $\to$ negativo (``\textit{Great cast, but a terrible script...}'', negativa con $P=0.0372$, $\Delta p = -0.78$ por ``\textit{terrible}'') y notas explícitas (``\textit{9/10}'', positiva con $P=0.9989$).
 \textbf{Fronteras de error ($3/6$):} falló en la atenuación por negación de adjetivo negativo (``\textit{not bad at all...}'', negativa con $P=0.0698$, dominado por ``\textit{disaster}'' y ``\textit{bad}''), el contraste negativo $\to$ positivo (``\textit{slow and confusing, yet... masterpiece}'', negativa con $P=0.3436$) y el sarcasmo (``\textit{Brilliant cure for insomnia...}'', positiva con $P=0.5625$, inducido por ``\textit{brilliant}'').
 
@@ -144,12 +152,12 @@ Las probabilidades en \texttt{Test} exhiben distribución bimodal (mediana $>0.9
 \section{Discusión}
 
 El desempeño responde a tres factores metodológicos:
-(i) \textbf{Parsimonia y regularización:} congelar GloVe ($3.07\text{M}$ parámetros) limitó la optimización a solo $32\,001$ parámetros en GRU y clasificador ($\approx 869$ reseñas/parámetro), evitando el sobreajuste de BiLSTM con ajuste fino;
+(i) \textbf{Parsimonia y regularización:} congelar GloVe ($3.07\text{M}$ parámetros) limitó la optimización a solo $32\,001$ parámetros en GRU y clasificador ($\approx 0.87$ reseñas/parámetro), evitando el sobreajuste de BiLSTM con ajuste fino;
 (ii) \textbf{Compuertas y agregación dual:} la celda GRU mitigó el desvanecimiento del gradiente frente a la RNN simple ($65.98\,\%$, varianza $\pm 10.58\,\%$), mientras que \textit{mean-max pooling} \cite{c5} preservó el contexto continuo y los picos enfáticos de opinión distribuidos en la secuencia; y
 (iii) \textbf{Calibración y dispersión de confianza:} en aciertos, el modelo exhibe alta confianza; no obstante, en los $580$ errores de \texttt{Test}, las probabilidades se dispersaron en $[0.0002, 0.9995]$, demostrando que la red puede incurrir en sobreconfianza inducida por términos polarizados aislados en la rama de agrupamiento máximo (\textit{Max Pooling}).
 
 \textbf{Contraste con trabajos relacionados.}
-Con $90.27\,\%$ de exactitud en \texttt{Test}, la arquitectura supera la referencia de Maas \textit{et al.} \cite{c3} ($88.89\,\%$) y la línea base convolucional de Kim \cite{c6} ($\approx 89.5\,\%$), con una fracción reducida de parámetros frente a modelos contextuales \cite{c5}. Aunque los \textit{Transformers} reportan $>93\,\%$, demandan órdenes de magnitud más cómputo.
+Con $90.27\,\%$ de exactitud en \texttt{Test}, la arquitectura supera la referencia de Maas \textit{et al.} \cite{c3} ($88.89\,\%$), con una fracción reducida de parámetros frente a modelos contextuales preentrenados como ULMFiT \cite{c5}.
 
 \textbf{Limitaciones y trabajo futuro.}
 Las limitaciones radican en la naturaleza estática de GloVe \cite{c4}, insensible al contexto local, y en la sensibilidad del agrupamiento máximo ante el sarcasmo. Como trabajo futuro se propone incorporar un mecanismo de atención temporal aprendible (\textit{Self-Attention Pooling}) sobre la salida de la GRU y validar ensambles ligeros GRU-BiLSTM.
@@ -168,8 +176,6 @@ Las limitaciones radican en la naturaleza estática de GloVe \cite{c4}, insensib
 \bibitem{c4} J. Pennington, R. Socher, and C. D. Manning, ``GloVe: Global vectors for word representation,'' in \textit{Proc. EMNLP}, 2014, pp. 1532--1543.
 
 \bibitem{c5} J. Howard and S. Ruder, ``Universal language model fine-tuning for text classification,'' in \textit{Proc. 56th Annu. Meeting Assoc. Comput. Linguistics (ACL)}, 2018, pp. 328--339.
-
-\bibitem{c6} Y. Kim, ``Convolutional neural networks for sentence classification,'' in \textit{Proc. EMNLP}, 2014, pp. 1746--1751.
 
 \end{thebibliography}
 
