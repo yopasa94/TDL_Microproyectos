@@ -14,6 +14,7 @@
 \usepackage{multirow}
 \usepackage{microtype}
 \usepackage{etoolbox}
+\usepackage{url}
 
 % Rótulos en español (ieeeconf.cls los fija en inglés)
 \makeatletter
@@ -74,17 +75,17 @@ Se empleó ESC-50 \cite{c1} desde el espejo público indicado (\textit{fold}~1) 
 Cada audio se promedió a mono, remuestreó a $16\,\text{kHz}$ \cite{c5} y transformó a espectrogramas log-Mel Kaldi de $128$ bandas (ventana $25\,\text{ms}$, paso $10\,\text{ms}$; $498$ cuadros útiles). Fijar longitud máxima de $512$ cuadros conserva el $100\,\%$ de la señal real con $2.73\,\%$ de relleno (vs.~$51.37\,\%$ en $1\,024$) y reduce $\sim 4\times$ el costo cuadrático de atención \cite{c2}. Para preservar contrastes energéticos, se aplicó la estandarización global de AudioSet $(X-\mu)/(2\sigma)$ ($\mu=-4.2677$, $\sigma=4.5690$), llevando los $498$ cuadros activos de entrenamiento de $-6.8208 \pm 5.3665$ a $-0.2794 \pm 0.5873$. En entrenamiento se evaluó \textit{SpecAugment} \cite{c7} (máscaras de hasta $24$ bandas y $64$ cuadros).
 
 \textbf{Partición y protocolo experimental.}
-El \textit{fold}~1 ($n=400$, $8$/clase) quedó aislado para una única evaluación cuantitativa final; los análisis posteriores de error, oclusión, espacio latente y perturbaciones en cinco clips son diagnósticos sobre el modelo fijo. Como el espejo \cite{c6} omite el identificador de \textit{fold} y archivo fuente en el bloque de entrenamiento ($1\,600$ clips), este se dividió estratificadamente ($75\,\%/25\,\%$, semilla $42$) en entrenamiento ($n=1\,200$, $24$/clase) y validación ($n=400$, $8$/clase), sin fuga entre particiones. En validación ($n=400$) se compararon cinco configuraciones por $2$ épocas (semilla $42$) con $600$ clips ($50\,\%$ estratificado para la referencia clásica y ajuste fino; en AST congelado, $600$ clips indexados sobre el caché barajado). La ganadora en \textit{F1 macro} se reentrenó con el $100\,\%$ de entrenamiento ($n=1\,200$) por $2$ épocas.
+El \textit{fold}~1 ($n=400$, $8$/clase) quedó aislado para una única evaluación cuantitativa final. Como el espejo \cite{c6} omite el identificador de \textit{fold} y archivo fuente en el bloque de entrenamiento ($1\,600$ clips), este se dividió estratificadamente ($75\,\%/25\,\%$, semilla $42$) en entrenamiento ($n=1\,200$) y validación ($n=400$), sin fuga entre particiones. En validación se compararon cinco configuraciones por $2$ épocas con $600$ clips de entrenamiento ($50\,\%$ estratificado); la ganadora en \textit{F1 macro} se reentrenó con el $100\,\%$ ($n=1\,200$) por $2$ épocas.
 
 \textbf{Arquitectura, pérdida y optimización.}
-Se adaptó el modelo preentrenado \texttt{MIT/ast-finetuned-audioset-10-10-0.4593} \cite{c4, c5}. Una convolución $2\text{D}$ ($16\times 16$, paso $10\times 10$) extrae $12\times 50 = 600$ parches de $768$ dimensiones. Para conservar los pesos posicionales de AudioSet, los \textit{embeddings} posicionales $2\text{D}$ se recortaron estructuralmente de $1\,214$ a $602$ tokens (\texttt{[CLS]}, \texttt{[DIST]} y $50$ pasos temporales). Tras $12$ capas ($12$ cabezales, $d_k=64$), el promedio $\mathbf{h}_{\text{pool}}=\frac{1}{2}(\mathbf{h}_{\text{CLS}}+\mathbf{h}_{\text{DIST}})\in\mathbb{R}^{768}$ pasa por normalización de capa y una proyección lineal a $50$ salidas ($85.76\,\text{M}$ parámetros totales; $40.0\,\text{k}$ en la cabeza).
+Se adaptó el modelo preentrenado \texttt{MIT/ast-finetuned-}\allowbreak\texttt{audioset-10-10-0.4593} \cite{c4, c5}. Una convolución $2\text{D}$ ($16\times 16$, paso $10\times 10$) extrae $12\times 50 = 600$ parches de $768$ dimensiones. Para conservar los pesos posicionales de AudioSet, los \textit{embeddings} posicionales $2\text{D}$ se recortaron estructuralmente de $1\,214$ a $602$ tokens (\texttt{[CLS]}, \texttt{[DIST]} y $50$ pasos temporales). Tras $12$ capas ($12$ cabezales, $d_k=64$), el promedio $\mathbf{h}_{\text{pool}}=\frac{1}{2}(\mathbf{h}_{\text{CLS}}+\mathbf{h}_{\text{DIST}})\in\mathbb{R}^{768}$ pasa por normalización de capa y una proyección lineal a $50$ salidas ($85.76\,\text{M}$ parámetros totales; $40.0\,\text{k}$ en la cabeza).
 
 Con activación \textit{softmax}, $\hat{p}_c(x) = e^{z_c}/\sum_{j=0}^{49} e^{z_j}$, se minimizó la entropía cruzada categórica:
 \begin{equation}
 \mathcal{L}(\mathbf{z}, y) = -\log \hat{p}_y(x) = -z_y + \log\sum_{j=0}^{49} e^{z_j}.
 \label{eq:ce}
 \end{equation}
-Se contrastaron: (1) referencia clásica de $246$ rasgos ($40$ MFCC, primeras y segundas derivadas, RMS, cruces por cero y centroide espectral en media/DE, escalados solo en entrenamiento) con regresión logística multinomial; (2) AST congelado ($\eta=10^{-3}$); y ajuste fino con (3) $\eta=3\times 10^{-5}$, (4) $\eta=5\times 10^{-5}$ y (5) $\eta=5\times 10^{-5}$ + \textit{SpecAugment}. Se usó AdamW ($\lambda=0.01$, excluyendo sesgos) \cite{c8}, calentamiento lineal del $10\,\%$, lotes de $8$ ($16$ en evaluación), recorte $\|\nabla\|_2 \le 1.0$ y precisión mixta de $16$ bits. Se reportan exactitud \textit{Top-1} y \textit{Top-3} (para detectar clases cercanas entre $50$ categorías), precisión y sensibilidad macro, y \textit{F1 macro} $\pm$ DE entre las $50$ clases.
+Se contrastaron: (1) referencia clásica de $246$ rasgos ($40$ MFCC, primeras y segundas derivadas, RMS, cruces por cero y centroide espectral en media/DE, escalados solo en entrenamiento) con regresión logística multinomial; (2) AST congelado ($\eta=10^{-3}$); y ajuste fino con (3) $\eta=3\times 10^{-5}$, (4) $\eta=5\times 10^{-5}$ y (5) $\eta=5\times 10^{-5}$ + \textit{SpecAugment}. Se usó AdamW ($\lambda=0.01$, excluyendo sesgos y LayerNorm) \cite{c8}, calentamiento lineal del $10\,\%$, lotes de $8$ ($16$ en evaluación), recorte $\|\nabla\|_2 \le 1.0$ y precisión mixta de $16$ bits. Se reportan exactitud \textit{Top-1} y \textit{Top-3} (para detectar clases cercanas entre $50$ categorías), precisión y sensibilidad macro, y \textit{F1 macro} $\pm$ DE entre las $50$ clases.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Resultados}
@@ -145,7 +146,7 @@ Exteriores y urbanos ($80$) & $91.25$ & $91.19$ & $91.25$ & $90.59$ & $27.10$ \\
 \end{tabular}}
 \end{table}
 
-En la prueba independiente (\textit{fold}~1, Tabla~\ref{tab:test_macro}), AST alcanzó \textbf{$93.00\,\%$ de exactitud} ($372/400$), \textbf{$98.75\,\%$ \textit{Top-3}}, \textbf{$92.75 \pm 9.55\,\%$ de \textit{F1 macro}} y pérdida de $0.2608$. Superó en $+50.96\,\text{pp}$ de \textit{F1 macro} al modelo MFCC ($42.25\,\%$ de exactitud; $41.79 \pm 23.07\,\%$ de F1; pérdida de $2.5674$). \textit{Animales} obtuvo $100\,\%$ de exactitud ($80/80$), mientras que en la matriz $5\times 5$ (Fig.~\ref{fig:quant_eval}(a)) todos los bloques superaron $96.2\,\%$ de F1.
+En la prueba independiente (\textit{fold}~1, Tabla~\ref{tab:test_macro}), AST alcanzó \textbf{$93.00\,\%$ de exactitud} ($372/400$), \textbf{$98.75\,\%$ \textit{Top-3}}, \textbf{$92.75 \pm 9.55\,\%$ de \textit{F1 macro}} y pérdida de $0.2608$. Superó en $+50.96\,\text{pp}$ de \textit{F1 macro} al modelo MFCC ($42.25\,\%$ de exactitud; $41.79 \pm 23.07\,\%$ de F1; pérdida de $2.5674$). \textit{Animales} obtuvo $100\,\%$ de exactitud ($80/80$), y en la matriz $5\times 5$ (Fig.~\ref{fig:quant_eval}(a)) todos los bloques alcanzaron F1 $\geq 96.2\,\%$.
 
 \begin{table}[!t]
 \centering
@@ -175,7 +176,7 @@ En la prueba independiente (\textit{fold}~1, Tabla~\ref{tab:test_macro}), AST al
 La Tabla~\ref{tab:test_extremos} resume los extremos por clase. Un total de $22$ categorías ($44\,\%$) obtuvieron $100.00\,\%$ de F1, y las mayores caídas ocurrieron en \texttt{washing\_machine} ($57.14\,\%$) y \texttt{wind} ($61.54\,\%$). De los $28$ errores en prueba ($7.00\,\%$), $17$ ($60.7\,\%$) fueron intra-macro-grupo y $11$ ($39.3\,\%$) inter-grupo; cuatro pares concentraron $10$ errores: \texttt{wind} $\to$ \texttt{sea\_waves} ($4$), \texttt{crying\_baby} $\to$ \texttt{cat} ($2$), \texttt{vacuum\_cleaner} $\to$ \texttt{washing\_machine} ($2$) y \texttt{washing\_machine} $\to$ \texttt{engine} ($2$).
 
 \textbf{Resultados cualitativos, espacio latente y robustez.}
-En prueba, la mediana de probabilidad máxima separó los $372$ aciertos ($98.8\,\%$) de los $28$ errores ($73.1\,\%$). La Fig.~\ref{fig:qual_specs} contrasta espectrogramas reales de aciertos y errores, evidenciando similitud en impulsos y bandas estacionarias. Por oclusión en \texttt{pouring\_water} ($P_{\text{base}}=99.9\,\%$), ocultar parches en bandas $16\text{–}64$ ($2.2\text{–}4.5\,\text{s}$) solo redujo $\Delta P \le 0.35\,\text{pp}$ por saturación \textit{softmax}.
+En prueba, la mediana de probabilidad máxima separó los $372$ aciertos ($98.8\,\%$) de los $28$ errores ($73.1\,\%$). La Fig.~\ref{fig:qual_specs} contrasta espectrogramas reales de aciertos y errores, evidenciando similitud en impulsos y bandas estacionarias. La oclusión de parches en \texttt{pouring\_water} solo redujo $\Delta P \le 0.35\,\text{pp}$ por saturación \textit{softmax}.
 
 En el espacio latente ($\mathbb{R}^{768}$), la proyección t-SNE \cite{c9} mostró grupos más compactos tras el ajuste fino: la silueta coseno de $50$ clases pasó de $0.3576$ a $0.5546$ ($\Delta=+0.1970$; euclidiana de $0.2188$ a $0.3682$). En los $5$ clips más confiables de prueba (\texttt{pouring\_water}, \texttt{door\_wood\_creaks}, \texttt{insects}, \texttt{chainsaw}, \texttt{brushing\_teeth}), AST acertó $20/20$ pruebas bajo señal limpia, ruido ($\text{SNR}=15\,\text{dB}$), atenuación ($-6\,\text{dB}$) y desplazamiento ($+1.5\,\text{s}$), con probabilidades entre $99.56\,\%$ y $99.85\,\%$.
 
@@ -190,15 +191,15 @@ En el espacio latente ($\mathbb{R}^{768}$), la proyección t-SNE \cite{c9} mostr
 \section{Discusión}
 
 \textbf{Representación tiempo-frecuencia y ajuste fino.}
-La ventaja de $+50.96\,\text{pp}$ sobre MFCC confirma que promediar descriptores en $5.0\,\text{s}$ pierde el orden temporal de transientes, mientras AST modela parches locales y relaciones globales \cite{c4}. Recortar a $512$ cuadros evita relleno excesivo sin truncar señal ni perder los pesos posicionales de AudioSet \cite{c5}. Frente al modelo congelado ($90.59\,\%$), descongelar las $12$ capas sumó $+4.21\,\text{pp}$ en validación y $+55.1\,\%$ relativo en silueta coseno, separando clases finas.
+La ventaja de $+50.96\,\text{pp}$ sobre MFCC confirma que promediar descriptores en $5.0\,\text{s}$ pierde el orden temporal de transientes, mientras AST modela parches locales y relaciones globales \cite{c4}. Frente al modelo congelado ($90.59\,\%$), descongelar las $12$ capas sumó $+4.21\,\text{pp}$ en validación y $+55.1\,\%$ relativo en silueta coseno, separando clases finas.
 
 \textbf{Brecha de generalización y origen físico de errores.}
-La caída de $-4.22\,\text{pp}$ entre validación ($96.98\,\%$) y prueba ($92.75\,\%$) refleja la partición: validación divide estratificadamente el bloque de entrenamiento (pudiendo compartir fuentes), mientras el \textit{fold}~1 aísla estrictamente las fuentes \cite{c1}. Los errores responden a ambigüedad física (Fig.~\ref{fig:qual_specs}): ruido turbulento (\texttt{wind} vs.~\texttt{sea\_waves}), zumbidos rotativos (\texttt{washing\_machine}, \texttt{vacuum\_cleaner}, \texttt{engine}), armónicos agudos (\texttt{crying\_baby} vs.~\texttt{cat}) e impactos secos (\texttt{footsteps} vs.~\texttt{keyboard\_typing}).
+Las pérdidas finales de entrenamiento ($0.10$) y validación ($0.12$) son similares, por lo que no hay sobreajuste tras $2$ épocas; la caída de $-4.22\,\text{pp}$ entre validación ($96.98\,\%$) y prueba ($92.75\,\%$) refleja la partición: validación puede compartir fuentes con entrenamiento, mientras el \textit{fold}~1 las aísla \cite{c1}. Los errores responden a ambigüedad física (Fig.~\ref{fig:qual_specs}): ruido turbulento (\texttt{wind} vs.~\texttt{sea\_waves}), zumbidos rotativos (\texttt{washing\_machine}, \texttt{vacuum\_cleaner}, \texttt{engine}), armónicos agudos (\texttt{crying\_baby} vs.~\texttt{cat}) e impactos secos (\texttt{footsteps} vs.~\texttt{keyboard\_typing}).
 
 \textbf{Evidencia, literatura y mejoras futuras.}
 Con una semilla, el $+0.37\,\text{pp}$ de \textit{SpecAugment} \cite{c7} es comparable y no prueba significancia; la saturación \textit{softmax} limita la oclusión ($\Delta P \le 0.35\,\text{pp}$) y el $20/20$ en perturbaciones solo evalúa clips fáciles. En $5$ \textit{folds} de ESC-50, Gong \textit{et al.} \cite{c4} reportan $95.6 \pm 0.4\,\%$ para AST, y Piczak \cite{c1} $81.3\,\%$ humano y $44.3\,\%$ en \textit{random forest} sobre MFCC. Nuestras cifras ($93.00\,\%$ AST; $42.25\,\%$ MFCC) son consistentes considerando un solo \textit{fold}, $2$ épocas y $512$ cuadros.
 
-Como limitaciones destacan la convergencia inconclusa en época $2$, un único \textit{fold} y semilla, y errores con confianza $>95\,\%$. Se propone entrenar $10\text{–}20$ épocas con decaimiento coseno, validar en $5$ \textit{folds} con varias semillas, aplicar \textit{Mixup} y suavizado de etiquetas ($\epsilon = 0.1$), y evaluar un ensamble ligero AST + CNN~$2\text{D}$.
+Como limitaciones destacan la convergencia inconclusa, un único \textit{fold} y semilla, y errores con confianza $>95\,\%$. Se propone entrenar $10$--$20$ épocas con decaimiento coseno, validar en $5$ \textit{folds} con varias semillas y aplicar \textit{Mixup} y suavizado de etiquetas.
 
 \newpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -216,7 +217,7 @@ Como limitaciones destacan la convergencia inconclusa en época $2$, un único \
 
 \bibitem{c5} J. F. Gemmeke \textit{et al.}, ``Audio Set: An ontology and human-labeled dataset for audio events,'' in \textit{Proc. IEEE Int. Conf. Acoust., Speech Signal Process. (ICASSP)}, 2017, pp. 776--780.
 
-\bibitem{c6} confit, ``esc50-demo: ESC-50 environmental sound classification (Hugging Face mirror),'' Hugging Face Datasets (\texttt{confit/esc50-demo}), 2026.
+\bibitem{c6} confit, ``esc50-demo: ESC-50 environmental sound classification (Hugging Face mirror),'' Hugging Face Datasets, 2026. [Online]. Available: \url{https://huggingface.co/datasets/confit/esc50-demo}
 
 \bibitem{c7} D. S. Park \textit{et al.}, ``SpecAugment: A simple data augmentation method for automatic speech recognition,'' in \textit{Proc. Interspeech}, 2019, pp. 2613--2617.
 
